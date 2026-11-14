@@ -1,6 +1,6 @@
 import { Check, Strikethrough, X } from 'lucide-react';
 import { conceptById, topicById } from '../data/concepts';
-import { LETTERS, difficultyName, styleName } from '../lib';
+import { LETTERS, acronymsIn, difficultyName, styleName } from '../lib';
 import type { Question } from '../types';
 
 type SheetProps = {
@@ -49,6 +49,12 @@ export function QuestionSheet({ q, number, order, chosen, reveal, struck = [], o
         )}
         <p className="sheet-strong">{q.command}</p>
       </div>
+
+      {acronymsIn(q).length > 0 && (
+        <dl className="legend" aria-label="Legenda das siglas">
+          {acronymsIn(q).map(([sigla, meaning]) => <div key={sigla}><dt>{sigla}</dt><dd>{meaning}</dd></div>)}
+        </dl>
+      )}
 
       <ol className="options" aria-label="Alternativas">
         {order.map((original, display) => {
