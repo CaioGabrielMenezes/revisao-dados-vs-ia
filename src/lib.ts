@@ -56,9 +56,9 @@ const GLOSSARY: Record<string, string> = {
 };
 const ACRONYM = new RegExp(`(?<![\\w.])(${Object.keys(GLOSSARY).map(k => k.replace('.', '\\.')).join('|')})(?![\\w])`, 'g');
 
-/** Siglas presentes no enunciado ou nas alternativas, na ordem em que aparecem. */
+/** Siglas presentes no enunciado (não nas alternativas), na ordem em que aparecem. */
 export function acronymsIn(q: Question): [string, string][] {
-  const text = [...q.context, q.lead, ...(q.items ?? []).map(i => i.text), ...(q.assertion ?? []), q.command, ...q.options.map(o => o.text)].join(' ');
+  const text = [...q.context, q.lead, ...(q.items ?? []).map(i => i.text), ...(q.assertion ?? []), q.command].join(' ');
   const found = new Set([...text.matchAll(ACRONYM)].map(m => m[1]));
   return [...found].map(k => [k, GLOSSARY[k]]);
 }
