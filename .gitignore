@@ -1,0 +1,9 @@
+node_modules/
+dist/
+*.tsbuildinfo
+.DS_Store
+
+# Fica só local: foto da prova (dados pessoais) e material do professor
+referencias/
+# Instruções locais do Claude Code
+CLAUDE.md
