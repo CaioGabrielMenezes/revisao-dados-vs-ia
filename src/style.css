@@ -192,6 +192,15 @@ button.ink:hover { background: color-mix(in srgb, var(--pen) 14%, transparent); 
 .concept dl { display: grid; gap: 10px; margin: 14px 0 0; padding-top: 14px; border-top: 1px dashed var(--line-strong); }
 .concept dt { font-size: 12.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
 .concept dd { margin: 2px 0 0; font-size: 15.5px; }
+.cheat > summary { list-style: none; cursor: pointer; }
+.cheat > summary::-webkit-details-marker { display: none; }
+.cheat-key { font: 600 18px/1.4 var(--serif); color: var(--pen); margin: 4px 0 6px; }
+.cheat[open] small { display: none; }
+.drill-q { font: 600 clamp(19px, 2.4vw, 23px)/1.4 var(--serif); }
+.drill-choices { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+.drill-choices .btn { flex: 1 1 160px; min-height: 48px; }
+.drill-choices .btn.wrong { border-color: var(--bad); color: var(--bad); background: var(--bad-soft); }
+.drill-choices .btn.primary:disabled, .drill-choices .btn.wrong:disabled { opacity: 1; }
 .concept-note { display: flex; gap: 8px; margin-top: 14px; padding: 10px 12px; border-radius: 8px; background: var(--marker-soft); color: var(--ink-2); font-size: 14.5px; }
 .concept-note svg { flex-shrink: 0; margin-top: 3px; color: var(--marker); }
 .empty { color: var(--muted); margin-top: 24px; }

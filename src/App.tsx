@@ -1,5 +1,5 @@
 import { useEffect, useState, type ReactNode } from 'react';
-import { ArrowLeft, BookOpen, ClipboardCheck, FileText, Home as HomeIcon, ListChecks, Menu, Moon, RotateCcw, Sun, X } from 'lucide-react';
+import { ArrowLeft, BookOpen, ClipboardCheck, FileText, Home as HomeIcon, ListChecks, Menu, Moon, RotateCcw, Sun, X, Zap } from 'lucide-react';
 import { questions } from './data/questions';
 import { loadProgress, recordAttempts, recordSession, saveProgress, wrongIds } from './store';
 import type { Attempt, Progress, SessionRecord, TopicId } from './types';
@@ -7,8 +7,9 @@ import Home from './pages/Home';
 import Concepts from './pages/Concepts';
 import Practice from './pages/Practice';
 import Exam from './pages/Exam';
+import Review from './pages/Review';
 
-export type Page = 'inicio' | 'conceitos' | 'objetivas' | 'contextualizadas' | 'simulado' | 'erros';
+export type Page = 'inicio' | 'conceitos' | 'revisao' | 'objetivas' | 'contextualizadas' | 'simulado' | 'erros';
 /** `from`: página de origem ao abrir um conceito (para o botão “Voltar”). */
 export type Nav = { page: Page; concept?: string; topic?: TopicId; from?: Page };
 export type Go = (page: Page, extra?: Omit<Nav, 'page'>) => void;
@@ -17,6 +18,7 @@ export type Save = (attempts: Attempt[], session?: SessionRecord) => void;
 const NAV: { id: Page; name: string; icon: typeof HomeIcon; group: string }[] = [
   { id: 'inicio', name: 'Início', icon: HomeIcon, group: 'Estudar' },
   { id: 'conceitos', name: 'Conceitos do quadro', icon: BookOpen, group: 'Estudar' },
+  { id: 'revisao', name: 'Revisão rápida', icon: Zap, group: 'Estudar' },
   { id: 'objetivas', name: 'Questões objetivas', icon: ListChecks, group: 'Praticar' },
   { id: 'contextualizadas', name: 'Questões contextualizadas', icon: FileText, group: 'Praticar' },
   { id: 'simulado', name: 'Simulado da prova', icon: ClipboardCheck, group: 'Praticar' },
@@ -103,6 +105,7 @@ export default function App() {
         </header>
         <div className="content">
           {nav.page === 'inicio' && <Home progress={progress} go={go} />}
+          {nav.page === 'revisao' && <Review />}
           {nav.page === 'conceitos' && <Concepts focus={nav.concept} go={go} />}
           {practice('objetivas', 'objetiva')}
           {practice('contextualizadas', 'contextualizada')}

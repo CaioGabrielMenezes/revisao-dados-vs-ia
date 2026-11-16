@@ -10,10 +10,12 @@ async function load(path) {
 
 const { concepts, conceptById, topics } = await load('src/data/concepts.ts');
 const { questions } = await load('src/data/questions.ts');
+const { drills, CHOICES } = await load('src/data/review.ts');
 const { recordAttempts, recordSession, wrongIds, emptyProgress } = await load('src/store.ts');
 
 const fail = [];
 const check = (cond, msg) => { if (!cond) fail.push(msg); };
+for (const d of drills) check(CHOICES[d.set].includes(d.a), `revisão rápida: “${d.q}” tem resposta fora das opções`);
 
 // Estrutura
 assert.equal(new Set(concepts.map(c => c.id)).size, concepts.length, 'conceitos duplicados');
