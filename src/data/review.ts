@@ -7,14 +7,15 @@ export const CHOICES = {
 
 export type Drill = { set: keyof typeof CHOICES; q: string; a: string; why: string };
 
-/** Cartões da cola: a pergunta-chave aparece; o resto, só ao tocar (recordação ativa). */
+/** Cartões da cola: a pergunta-chave aparece; o resto, só ao tocar (recordação ativa).
+ *  `concepts`: fichas de concepts.ts cuja definição completa aparece no cartão. */
 export const cheats = [
-  { board: 'BI / A.D', name: 'Analista de dados', key: 'O que aconteceu e por quê?', verb: 'Descreve e explica o passado', delivers: 'Painéis, relatórios, indicadores (KPIs), consultas SQL', trap: 'Não constrói pipeline nem treina modelo preditivo.' },
-  { board: 'C.D / M.L', name: 'Cientista de dados', key: 'O que vai acontecer?', verb: 'Prevê com modelos (estatística e ML)', delivers: 'Modelos treinados e avaliados em dados novos', trap: 'Não é quem mantém a carga noturna nem monta o painel do mês.' },
-  { board: 'E.D', name: 'Engenheiro de dados', key: 'O dado chega certo e no prazo?', verb: 'Constrói a estrada por onde o dado passa', delivers: 'Pipelines, ETL, data warehouse', trap: 'Não interpreta os números para a diretoria.' },
-  { board: 'DB', name: 'Banco operacional', key: 'Registrar agora', verb: 'Grava cada transação no momento em que acontece', delivers: 'Cadastro, pedidos, matrículas — o sistema do dia a dia', trap: 'Consulta analítica pesada aqui deixa o sistema lento.' },
-  { board: 'DATA WAREHOUSE', name: 'Data Warehouse', key: 'A empresa inteira, com histórico', verb: 'Integra várias fontes para análise', delivers: 'Base histórica que alimenta o BI', trap: 'Não registra a venda em tempo real.' },
-  { board: 'DATA MARTS', name: 'Data Mart', key: 'Só o que um time usa', verb: 'Recorte do warehouse para uma área', delivers: 'Base menor e simples para marketing, financeiro, RH…', trap: 'É um pedaço do warehouse, não o contrário.' }
+  { board: 'BI / A.D', concepts: ['bi', 'ad'], name: 'Analista de dados', key: 'O que aconteceu e por quê?', verb: 'Descreve e explica o passado', delivers: 'Painéis, relatórios, indicadores (KPIs), consultas SQL', trap: 'Não constrói pipeline nem treina modelo preditivo.' },
+  { board: 'C.D / M.L', concepts: ['cd', 'ml'], name: 'Cientista de dados', key: 'O que vai acontecer?', verb: 'Prevê com modelos (estatística e ML)', delivers: 'Modelos treinados e avaliados em dados novos', trap: 'Não é quem mantém a carga noturna nem monta o painel do mês.' },
+  { board: 'E.D', concepts: ['ed'], name: 'Engenheiro de dados', key: 'O dado chega certo e no prazo?', verb: 'Constrói a estrada por onde o dado passa', delivers: 'Pipelines, ETL, data warehouse', trap: 'Não interpreta os números para a diretoria.' },
+  { board: 'DB', concepts: ['db'], name: 'Banco operacional', key: 'Registrar agora', verb: 'Grava cada transação no momento em que acontece', delivers: 'Cadastro, pedidos, matrículas — o sistema do dia a dia', trap: 'Consulta analítica pesada aqui deixa o sistema lento.' },
+  { board: 'DATA WAREHOUSE', concepts: ['warehouse'], name: 'Data Warehouse', key: 'A empresa inteira, com histórico', verb: 'Integra várias fontes para análise', delivers: 'Base histórica que alimenta o BI', trap: 'Não registra a venda em tempo real.' },
+  { board: 'DATA MARTS', concepts: ['datamart'], name: 'Data Mart', key: 'Só o que um time usa', verb: 'Recorte do warehouse para uma área', delivers: 'Base menor e simples para marketing, financeiro, RH…', trap: 'É um pedaço do warehouse, não o contrário.' }
 ];
 
 export const MNEMONIC = 'O analista olha para trás, o cientista olha para frente e o engenheiro constrói a estrada. O banco é o caixa registrando cada compra; o warehouse, o supermercado inteiro; o data mart, a seção que o seu time usa.';

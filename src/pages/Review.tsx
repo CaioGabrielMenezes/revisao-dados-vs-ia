@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { ArrowRight, Check, RotateCcw, X } from 'lucide-react';
 import { CHOICES, MNEMONIC, cheats, drills, type Drill } from '../data/review';
+import { conceptById } from '../data/concepts';
 import { shuffle } from '../lib';
 
 export default function Review() {
@@ -37,6 +38,7 @@ export default function Review() {
                 <small className="muted">Toque para conferir</small>
               </summary>
               <dl>
+                {c.concepts.map(id => <div key={id}><dt>{conceptById[id].name}</dt><dd>{conceptById[id].definition}</dd></div>)}
                 <div><dt>O que faz</dt><dd>{c.verb}</dd></div>
                 <div><dt>Entrega</dt><dd>{c.delivers}</dd></div>
                 <div><dt>Pegadinha</dt><dd>{c.trap}</dd></div>

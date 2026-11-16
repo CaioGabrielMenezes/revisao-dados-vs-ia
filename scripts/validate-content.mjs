@@ -10,11 +10,12 @@ async function load(path) {
 
 const { concepts, conceptById, topics } = await load('src/data/concepts.ts');
 const { questions } = await load('src/data/questions.ts');
-const { drills, CHOICES } = await load('src/data/review.ts');
+const { drills, CHOICES, cheats } = await load('src/data/review.ts');
 const { recordAttempts, recordSession, wrongIds, emptyProgress } = await load('src/store.ts');
 
 const fail = [];
 const check = (cond, msg) => { if (!cond) fail.push(msg); };
+for (const c of cheats) check(c.concepts.every(id => conceptById[id]), `revisão rápida: cartão “${c.name}” aponta para conceito inexistente`);
 for (const d of drills) check(CHOICES[d.set].includes(d.a), `revisão rápida: “${d.q}” tem resposta fora das opções`);
 
 // Estrutura
