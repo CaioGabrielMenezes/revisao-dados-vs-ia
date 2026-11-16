@@ -192,6 +192,8 @@ button.ink:hover { background: color-mix(in srgb, var(--pen) 14%, transparent); 
 .concept dl { display: grid; gap: 10px; margin: 14px 0 0; padding-top: 14px; border-top: 1px dashed var(--line-strong); }
 .concept dt { font-size: 12.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
 .concept dd { margin: 2px 0 0; font-size: 15.5px; }
+.cheat-group { margin-top: 22px; }
+.round-chips { margin-bottom: 16px; }
 .cheat > summary { list-style: none; cursor: pointer; }
 .cheat > summary::-webkit-details-marker { display: none; }
 .cheat-key { font: 600 18px/1.4 var(--serif); color: var(--pen); margin: 4px 0 6px; }

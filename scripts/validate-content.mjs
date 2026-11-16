@@ -15,6 +15,7 @@ const { recordAttempts, recordSession, wrongIds, emptyProgress } = await load('s
 
 const fail = [];
 const check = (cond, msg) => { if (!cond) fail.push(msg); };
+for (const c of concepts) check(cheats.some(ch => ch.concepts.includes(c.id)), `revisão rápida: conceito “${c.id}” sem cartão de memória`);
 for (const c of cheats) check(c.concepts.every(id => conceptById[id]), `revisão rápida: cartão “${c.name}” aponta para conceito inexistente`);
 for (const d of drills) check(CHOICES[d.set].includes(d.a), `revisão rápida: “${d.q}” tem resposta fora das opções`);
 

@@ -1,17 +1,23 @@
 import { useState } from 'react';
 import { ArrowRight, Check, RotateCcw, X } from 'lucide-react';
-import { CHOICES, MNEMONIC, cheats, drills, type Drill } from '../data/review';
-import { conceptById } from '../data/concepts';
+import { CHOICES, MNEMONIC, ROUND, SET_TOPIC, cheats, drills, type Drill } from '../data/review';
+import { conceptById, topics } from '../data/concepts';
 import { shuffle } from '../lib';
+import type { TopicId } from '../types';
+
+type RoundId = TopicId | 'tudo';
+const deal = (r: RoundId) => shuffle(drills.filter(d => r === 'tudo' || SET_TOPIC[d.set] === r)).slice(0, ROUND);
 
 export default function Review() {
-  const [deck, setDeck] = useState(() => shuffle(drills));
+  const [round, setRound] = useState<RoundId>('tudo');
+  const [deck, setDeck] = useState(() => deal('tudo'));
   const [i, setI] = useState(0);
   const [picked, setPicked] = useState<string>();
   const [missed, setMissed] = useState<Drill[]>([]);
   const card: Drill | undefined = deck[i];
 
-  const restart = (cards: Drill[]) => { setDeck(shuffle(cards)); setI(0); setPicked(undefined); setMissed([]); };
+  const restart = (cards: Drill[]) => { setDeck(cards); setI(0); setPicked(undefined); setMissed([]); };
+  const newRound = (r: RoundId) => { setRound(r); restart(deal(r)); };
   function pick(choice: string) {
     if (picked || !card) return;
     setPicked(choice);
@@ -23,13 +29,16 @@ export default function Review() {
       <div className="page-head">
         <span className="eyebrow">Estudar</span>
         <h1>Revisão rápida</h1>
-        <p>Primeiro, tente lembrar: toque em cada cartão só depois de responder mentalmente à pergunta. Depois, teste-se em rodadas curtas.</p>
+        <p>Primeiro, tente lembrar: toque em cada cartão só depois de responder mentalmente à pergunta. Depois, teste-se em rodadas curtas de {ROUND} tarefas.</p>
       </div>
 
       <section className="section">
-        <div className="section-head"><div><h2>Cola de 30 segundos</h2><p>{MNEMONIC}</p></div></div>
+        <div className="section-head"><div><h2>Cartões de memória</h2><p>{MNEMONIC}</p></div></div>
+        {topics.map(t => (
+        <div key={t.id} className="cheat-group">
+        <span className="eyebrow">{t.name}</span>
         <div className="concept-grid">
-          {cheats.map(c => (
+          {cheats.filter(c => conceptById[c.concepts[0]].topic === t.id).map(c => (
             <details key={c.name} className="concept cheat">
               <summary>
                 <span className="board-label">{c.board}</span>
@@ -39,19 +48,29 @@ export default function Review() {
               </summary>
               <dl>
                 {c.concepts.map(id => <div key={id}><dt>{conceptById[id].name}</dt><dd>{conceptById[id].definition}</dd></div>)}
-                <div><dt>O que faz</dt><dd>{c.verb}</dd></div>
-                <div><dt>Entrega</dt><dd>{c.delivers}</dd></div>
+                {c.verb && <div><dt>O que faz</dt><dd>{c.verb}</dd></div>}
+                {c.delivers && <div><dt>Entrega</dt><dd>{c.delivers}</dd></div>}
                 <div><dt>Pegadinha</dt><dd>{c.trap}</dd></div>
               </dl>
             </details>
           ))}
         </div>
+        </div>
+        ))}
       </section>
 
       <section className="section">
         <div className="section-head">
-          <div><h2>Quem faz? Onde fica?</h2><p>Uma tarefa por vez, três botões. Rápido de propósito.</p></div>
+          <div><h2>Rodadas rápidas</h2><p>Uma tarefa por vez, três botões. Escolha o assunto; cada rodada sorteia até {ROUND} tarefas.</p></div>
           {card && <span className="player-count">{i + 1} / {deck.length}</span>}
+        </div>
+
+        <div className="chips round-chips">
+          {(['tudo', ...topics.map(t => t.id)] as RoundId[]).map(r => (
+            <button key={r} type="button" className={`chip ${round === r ? 'on' : ''}`} onClick={() => newRound(r)}>
+              {r === 'tudo' ? 'Tudo misturado' : topics.find(t => t.id === r)!.short}
+            </button>
+          ))}
         </div>
 
         {card ? (
@@ -83,8 +102,8 @@ export default function Review() {
             <strong>{deck.length - missed.length} de {deck.length} certas.</strong>
             <p>{missed.length ? 'Repita os que errou até zerar: é a repetição que fixa.' : 'Rodada perfeita. Faça outra em ordem diferente para confirmar.'}</p>
             <div className="result-actions">
-              {missed.length > 0 && <button type="button" className="btn primary" onClick={() => restart(missed)}><RotateCcw size={16} /> Repetir só os {missed.length} que errei</button>}
-              <button type="button" className={`btn ${missed.length ? 'ghost' : 'primary'}`} onClick={() => restart(drills)}>Nova rodada completa</button>
+              {missed.length > 0 && <button type="button" className="btn primary" onClick={() => restart(shuffle(missed))}><RotateCcw size={16} /> Repetir só os {missed.length} que errei</button>}
+              <button type="button" className={`btn ${missed.length ? 'ghost' : 'primary'}`} onClick={() => newRound(round)}>Nova rodada</button>
             </div>
           </div>
         )}
